@@ -32,4 +32,10 @@ public class ClientController {
     public Client getOneClient(@PathVariable("id") int id) {
         return clientDao.readById(id);
     }
+
+    @PostMapping("/update")
+    public void updateOneClient(@RequestBody Client client) {
+        clientDao.updateClient(client);
+    }
+
 }

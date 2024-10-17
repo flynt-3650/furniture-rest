@@ -40,4 +40,16 @@ public class ClientDao {
         String sql = "SELECT * FROM client WHERE id=?";
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Client.class), id);
     }
+
+    // Update
+    public void updateClient(Client client) {
+        String sql = "UPDATE client SET first_name=?, last_name=?, email=?, phone_number=?, address=? WHERE id=?";
+        jdbcTemplate.update(sql,
+                client.getFirstName(),
+                client.getLastName(),
+                client.getEmail(),
+                client.getPhoneNumber(),
+                client.getAddress(),
+                client.getId());
+    }
 }
