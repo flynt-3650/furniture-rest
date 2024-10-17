@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Client implements Serializable {
 
     @NotNull
-    private int id;
+    private Integer id;
 
     @NotNull
     @Size(min = 3, max = 50, message = "name must be between 3 and 50")
@@ -88,5 +88,17 @@ public class Client implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

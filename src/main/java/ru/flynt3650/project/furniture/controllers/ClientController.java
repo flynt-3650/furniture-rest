@@ -1,10 +1,7 @@
 package ru.flynt3650.project.furniture.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.flynt3650.project.furniture.dao.ClientDao;
 import ru.flynt3650.project.furniture.models.Client;
 
@@ -21,13 +18,18 @@ public class ClientController {
         this.clientDao = clientDao;
     }
 
+    @PostMapping("/add")
+    public void postClient(@RequestBody Client client) {
+        clientDao.create(client);
+    }
+
     @GetMapping()
     public List<Client> getAllClients() {
-        return clientDao.findAll();
+        return clientDao.readAll();
     }
 
     @GetMapping("/{id}")
     public Client getOneClient(@PathVariable("id") int id) {
-        return clientDao.findById(id);
+        return clientDao.readById(id);
     }
 }
