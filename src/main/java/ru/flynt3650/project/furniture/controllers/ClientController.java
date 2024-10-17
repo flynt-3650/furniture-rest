@@ -38,4 +38,8 @@ public class ClientController {
         clientDao.updateClient(client);
     }
 
+    @PostMapping("/delete/{id}")
+    public void deleteOneClient(@PathVariable("id") int id) {
+        clientDao.deleteClient(id);
+    }
 }

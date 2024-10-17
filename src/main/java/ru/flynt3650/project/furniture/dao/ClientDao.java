@@ -52,4 +52,10 @@ public class ClientDao {
                 client.getAddress(),
                 client.getId());
     }
+
+    // Delete
+    public void deleteClient(int id) {
+        String sql = "DELETE FROM client where id=?";
+        jdbcTemplate.update(sql, id);
+    }
 }
