@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.flynt3650.project.furniture.models.Category;
 
+import java.lang.Integer;
 import java.util.List;
 import java.util.Optional;
 

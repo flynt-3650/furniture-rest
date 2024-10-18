@@ -3,7 +3,9 @@ package ru.flynt3650.project.furniture.models;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
 
     @NotNull
     private Integer id;

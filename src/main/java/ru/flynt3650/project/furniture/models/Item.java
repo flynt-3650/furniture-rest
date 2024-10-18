@@ -4,7 +4,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     @NotNull
     private Integer id;
@@ -17,23 +19,23 @@ public class Item {
     @Min(value = 0, message = "price must be more than 0")
     private Double price;
 
-    private Category category;
+    private Integer categoryId;
 
     public Item() {
     }
 
-    public Item(Integer id, String itemName, Double price, Category category) {
+    public Item(int id, String itemName, Double price, Integer categoryId) {
         this.id = id;
         this.itemName = itemName;
         this.price = price;
-        this.category = category;
+        this.categoryId = categoryId;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -53,11 +55,11 @@ public class Item {
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }

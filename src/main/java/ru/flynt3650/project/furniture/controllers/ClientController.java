@@ -30,17 +30,17 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public Client getOneClient(@PathVariable("id") int id) {
+    public Client getOneClient(@PathVariable("id") Integer id) {
         return clientService.getClientById(id);
     }
 
     @PatchMapping("/update/{id}")
-    public void updateOneClient(@PathVariable("id") Integer id, @RequestBody Client client) {
+    public void patchOneClient(@PathVariable("id") Integer id, @RequestBody Client client) {
         clientService.updateClient(id, client);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteOneClient(@PathVariable("id") int id) {
+    public void deleteOneClient(@PathVariable("id") Integer id) {
         clientService.deleteClient(id);
     }
 
