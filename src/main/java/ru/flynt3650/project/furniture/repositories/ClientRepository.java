@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.flynt3650.project.furniture.mappers.ClientRowMapper;
 import ru.flynt3650.project.furniture.models.Client;
 
 import java.util.List;
@@ -34,13 +35,13 @@ public class ClientRepository implements IMyCrudRepository<Client, Integer> {
     @Override
     public List<Client> readAll() {
         String sql = "SELECT * FROM client";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Client.class));
+        return jdbcTemplate.query(sql, new ClientRowMapper());
     }
 
     @Override
     public Optional<Client> readOne(Integer id) {
         String sql = "SELECT * FROM client WHERE id=?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Client.class), id));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new ClientRowMapper(), id));
     }
 
     @Override
