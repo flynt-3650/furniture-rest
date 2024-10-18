@@ -23,7 +23,6 @@ public class ClientRepository implements IMyCrudRepository<Client, Integer> {
     @Override
     public void create(Client client) {
         String sql = "INSERT INTO client(first_name, last_name, email, phone_number, address) VALUES (?, ?, ?, ?, ?)";
-        System.out.println(client);
         jdbcTemplate.update(sql,
                 client.getFirstName(),
                 client.getLastName(),
