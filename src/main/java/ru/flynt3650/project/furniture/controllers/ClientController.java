@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping()
+@RequestMapping("/clients")
 public class ClientController {
 
     private final ClientService clientService;

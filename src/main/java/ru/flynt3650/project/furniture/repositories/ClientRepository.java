@@ -63,24 +63,23 @@ public class ClientRepository implements IMyCrudRepository<Client, Integer> {
     }
 
     public List<Map<String, Object>> getClientOrderInfo() {
-        String sql = """
-                    SELECT\s
-                    c.id AS client_id,\s
-                        c.first_name,\s
-                        c.last_name,\s
-                        c.address,\s
-                        oi.quantity,\s
-                        i.id AS item_id,
-                        i.item_name,\s
-                        i.price
-                    FROM\s
-                        client c
-                        JOIN client_order co ON c.id = co.client_id
-                        JOIN order_item oi ON co.order_id = oi.order_id
-                        JOIN item i ON oi.item_id = i.id;
-               \s""";
+        String sql = "SELECT " +
+                "co.id AS order_id, " +
+                "c.id AS client_id, " +
+                "c.first_name, " +
+                "c.last_name, " +
+                "c.address, " +
+                "oi.quantity, " +
+                "i.item_name, " +
+                "i.price, " +
+                "ic.category_name " +
+                "FROM " +
+                "client c " +
+                "JOIN client_order co ON c.id = co.client_id " +
+                "JOIN order_item oi ON co.id = oi.order_id " +
+                "JOIN item i ON oi.item_id = i.id " +
+                "JOIN item_category ic ON i.category_id = ic.id";
 
         return jdbcTemplate.queryForList(sql);
     }
-
 }
