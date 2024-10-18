@@ -1,24 +1,24 @@
-package ru.flynt3650.project.furniture.dao;
+package ru.flynt3650.project.furniture.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import ru.flynt3650.project.furniture.models.Client;
 
 import java.util.List;
 
-@Component
-public class ClientDao {
+@Repository
+public class ClientRepository implements IMyCrudRepository<Client, Integer> {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ClientDao(JdbcTemplate jdbcTemplate) {
+    public ClientRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // Create
+    @Override
     public void create(Client client) {
         String sql = "INSERT INTO client(first_name, last_name, email, phone_number, address) VALUES (?, ?, ?, ?, ?)";
         System.out.println(client);
@@ -30,19 +30,20 @@ public class ClientDao {
                 client.getAddress());
     }
 
-    // Read
+    @Override
     public List<Client> readAll() {
         String sql = "SELECT * FROM client";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Client.class));
     }
 
-    public Client readById(int id) {
+    @Override
+    public Client readOne(Integer id) {
         String sql = "SELECT * FROM client WHERE id=?";
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Client.class), id);
     }
 
-    // Update
-    public void updateClient(Client client) {
+    @Override
+    public void update(Integer id, Client client) {
         String sql = "UPDATE client SET first_name=?, last_name=?, email=?, phone_number=?, address=? WHERE id=?";
         jdbcTemplate.update(sql,
                 client.getFirstName(),
@@ -50,11 +51,11 @@ public class ClientDao {
                 client.getEmail(),
                 client.getPhoneNumber(),
                 client.getAddress(),
-                client.getId());
+                id);
     }
 
-    // Delete
-    public void deleteClient(int id) {
+    @Override
+    public void delete(Integer id) {
         String sql = "DELETE FROM client where id=?";
         jdbcTemplate.update(sql, id);
     }

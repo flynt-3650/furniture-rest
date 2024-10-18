@@ -2,7 +2,7 @@ package ru.flynt3650.project.furniture.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.flynt3650.project.furniture.dao.ClientDao;
+import ru.flynt3650.project.furniture.services.ClientService;
 import ru.flynt3650.project.furniture.models.Client;
 
 import java.util.List;
@@ -11,35 +11,35 @@ import java.util.List;
 @RequestMapping()
 public class ClientController {
 
-    private final ClientDao clientDao;
+    private final ClientService clientService;
 
     @Autowired
-    public ClientController(ClientDao clientDao) {
-        this.clientDao = clientDao;
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
     }
 
     @PostMapping("/add")
     public void postClient(@RequestBody Client client) {
-        clientDao.create(client);
+        clientService.createClient(client);
     }
 
     @GetMapping()
     public List<Client> getAllClients() {
-        return clientDao.readAll();
+        return clientService.getAllClients();
     }
 
     @GetMapping("/{id}")
     public Client getOneClient(@PathVariable("id") int id) {
-        return clientDao.readById(id);
+        return clientService.getClientById(id);
     }
 
-    @PostMapping("/update")
-    public void updateOneClient(@RequestBody Client client) {
-        clientDao.updateClient(client);
+    @PatchMapping("/update/{id}")
+    public void updateOneClient(@PathVariable("id") Integer id, @RequestBody Client client) {
+        clientService.updateClient(id, client);
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteOneClient(@PathVariable("id") int id) {
-        clientDao.deleteClient(id);
+        clientService.deleteClient(id);
     }
 }
