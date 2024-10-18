@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.flynt3650.project.furniture.models.Client;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ClientRepository implements IMyCrudRepository<Client, Integer> {
@@ -37,9 +38,9 @@ public class ClientRepository implements IMyCrudRepository<Client, Integer> {
     }
 
     @Override
-    public Client readOne(Integer id) {
+    public Optional<Client> readOne(Integer id) {
         String sql = "SELECT * FROM client WHERE id=?";
-        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Client.class), id);
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Client.class), id));
     }
 
     @Override

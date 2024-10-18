@@ -26,7 +26,7 @@ public class ClientService {
     }
 
     public Client getClientById(Integer id) {
-        return clientRepository.readOne(id);
+        return clientRepository.readOne(id).orElse(null);
     }
 
     public void updateClient(Integer id, Client client) {
