@@ -6,6 +6,7 @@ import ru.flynt3650.project.furniture.models.Client;
 import ru.flynt3650.project.furniture.repositories.ClientRepository;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ClientService {
@@ -35,5 +36,9 @@ public class ClientService {
 
     public void deleteClient(Integer id) {
         clientRepository.delete(id);
+    }
+
+    public List<Map<String, Object>> getClientOrderInfo() {
+        return clientRepository.getClientOrderInfo();
     }
 }

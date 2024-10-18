@@ -1,13 +1,13 @@
 package ru.flynt3650.project.furniture.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.flynt3650.project.furniture.mappers.ClientRowMapper;
 import ru.flynt3650.project.furniture.models.Client;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -61,4 +61,26 @@ public class ClientRepository implements IMyCrudRepository<Client, Integer> {
         String sql = "DELETE FROM client where id=?";
         jdbcTemplate.update(sql, id);
     }
+
+    public List<Map<String, Object>> getClientOrderInfo() {
+        String sql = """
+                    SELECT\s
+                    c.id AS client_id,\s
+                        c.first_name,\s
+                        c.last_name,\s
+                        c.address,\s
+                        oi.quantity,\s
+                        i.id AS item_id,
+                        i.item_name,\s
+                        i.price
+                    FROM\s
+                        client c
+                        JOIN client_order co ON c.id = co.client_id
+                        JOIN order_item oi ON co.order_id = oi.order_id
+                        JOIN item i ON oi.item_id = i.id;
+               \s""";
+
+        return jdbcTemplate.queryForList(sql);
+    }
+
 }

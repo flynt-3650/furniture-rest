@@ -6,6 +6,7 @@ import ru.flynt3650.project.furniture.services.ClientService;
 import ru.flynt3650.project.furniture.models.Client;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping()
@@ -41,5 +42,10 @@ public class ClientController {
     @DeleteMapping("/delete/{id}")
     public void deleteOneClient(@PathVariable("id") int id) {
         clientService.deleteClient(id);
+    }
+
+    @GetMapping("/clientOrder")
+    public List<Map<String, Object>> getClientOrder() {
+        return clientService.getClientOrderInfo();
     }
 }
