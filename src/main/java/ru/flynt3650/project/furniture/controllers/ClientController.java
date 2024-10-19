@@ -1,12 +1,15 @@
 package ru.flynt3650.project.furniture.controllers;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.flynt3650.project.furniture.dto.ClientDto;
 import ru.flynt3650.project.furniture.services.ClientService;
 import ru.flynt3650.project.furniture.models.Client;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/clients")
@@ -14,29 +17,36 @@ public class ClientController {
 
     private final ClientService clientService;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public ClientController(ClientService clientService) {
+    public ClientController(ClientService clientService, ModelMapper modelMapper) {
         this.clientService = clientService;
+        this.modelMapper = modelMapper;
     }
 
     @PostMapping("/add")
-    public void postClient(@RequestBody Client client) {
-        clientService.createClient(client);
+    public void postClient(@RequestBody ClientDto clientDto) {
+        clientService.createClient(toClient(clientDto));
     }
 
     @GetMapping()
-    public List<Client> getAllClients() {
-        return clientService.getAllClients();
+    public List<ClientDto> getAllClients() {
+        return clientService
+                .getAllClients()
+                .stream()
+                .map(this::toClientDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public Client getOneClient(@PathVariable("id") Integer id) {
-        return clientService.getClientById(id);
+    public ClientDto getOneClient(@PathVariable("id") Integer id) {
+        return toClientDto(clientService.getClientById(id));
     }
 
     @PatchMapping("/update/{id}")
-    public void patchOneClient(@PathVariable("id") Integer id, @RequestBody Client client) {
-        clientService.updateClient(id, client);
+    public void patchOneClient(@PathVariable("id") Integer id, @RequestBody ClientDto clientDto) {
+        clientService.updateClient(id, toClient(clientDto));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -47,5 +57,13 @@ public class ClientController {
     @GetMapping("/clientOrder")
     public List<Map<String, Object>> getClientOrder() {
         return clientService.getClientOrderInfo();
+    }
+
+    private Client toClient(ClientDto clientDto) {
+        return modelMapper.map(clientDto, Client.class);
+    }
+
+    private ClientDto toClientDto(Client client) {
+        return modelMapper.map(client, ClientDto.class);
     }
 }
