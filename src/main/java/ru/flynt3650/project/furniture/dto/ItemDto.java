@@ -1,31 +1,30 @@
-package ru.flynt3650.project.furniture.models;
+package ru.flynt3650.project.furniture.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public class Item implements Serializable {
+public class ItemDto {
 
     @NotNull
     private Integer id;
 
     @NotNull
-    @Size(min = 3, max = 100, message = "name must be between 3 and 100")
+    @Size(message = "name must be between 3 and 100", min = 3, max = 100)
     private String itemName;
 
     @NotNull
-    @Min(value = 0, message = "price must be more than 0")
+    @Min(message = "price must be more than 0", value = 0)
     private Double price;
 
     private Integer categoryId;
 
-    public Item() {
+    public ItemDto() {
     }
 
-    public Item(int id, String itemName, Double price, Integer categoryId) {
+    public ItemDto(Integer id, String itemName, Double price, Integer categoryId) {
         this.id = id;
         this.itemName = itemName;
         this.price = price;
@@ -36,7 +35,7 @@ public class Item implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -68,11 +67,11 @@ public class Item implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return Objects.equals(id, item.id)
-                && Objects.equals(itemName, item.itemName)
-                && Objects.equals(price, item.price)
-                && Objects.equals(categoryId, item.categoryId);
+        ItemDto entity = (ItemDto) o;
+        return Objects.equals(this.id, entity.id) &&
+                Objects.equals(this.itemName, entity.itemName) &&
+                Objects.equals(this.price, entity.price) &&
+                Objects.equals(this.categoryId, entity.categoryId);
     }
 
     @Override
@@ -82,11 +81,10 @@ public class Item implements Serializable {
 
     @Override
     public String toString() {
-        return "Item{" +
-                "id=" + id +
-                ", itemName='" + itemName + '\'' +
-                ", price=" + price +
-                ", category=" + categoryId +
-                '}';
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "itemName = " + itemName + ", " +
+                "price = " + price + ", " +
+                "category = " + categoryId + ")";
     }
 }
