@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class Item implements Serializable {
 
@@ -61,5 +62,31 @@ public class Item implements Serializable {
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return Objects.equals(id, item.id)
+                && Objects.equals(itemName, item.itemName)
+                && Objects.equals(price, item.price)
+                && Objects.equals(categoryId, item.categoryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, itemName, price, categoryId);
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", itemName='" + itemName + '\'' +
+                ", price=" + price +
+                ", categoryId=" + categoryId +
+                '}';
     }
 }
