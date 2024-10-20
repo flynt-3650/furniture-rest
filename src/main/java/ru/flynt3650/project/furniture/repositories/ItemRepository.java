@@ -35,9 +35,9 @@ public class ItemRepository implements IMyCrudRepository<Item, Integer> {
     }
 
     @Override
-    public Optional<Item> readOne(Integer id) {
+    public Item readOne(Integer id) {
         String sql = "SELECT * FROM item WHERE id=?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new ItemRowMapper(), id));
+        return jdbcTemplate.queryForObject(sql, new ItemRowMapper(), id);
     }
 
     @Override

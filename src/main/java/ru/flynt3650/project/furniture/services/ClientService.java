@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.flynt3650.project.furniture.models.Client;
 import ru.flynt3650.project.furniture.repositories.ClientRepository;
+import ru.flynt3650.project.furniture.util.ClientNotFoundException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -27,7 +29,11 @@ public class ClientService {
     }
 
     public Client getClientById(Integer id) {
-        return clientRepository.readOne(id).orElse(null);
+        Client client = clientRepository.readOne(id);
+        if (client == null) {
+            throw new ClientNotFoundException("Client with id '" + id + "' was not found");
+        }
+        return client;
     }
 
     public void updateClient(Integer id, Client client) {

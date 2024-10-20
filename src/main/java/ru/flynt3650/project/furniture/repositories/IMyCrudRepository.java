@@ -11,7 +11,7 @@ public interface IMyCrudRepository<T, V> {
     // Read
     List<T> readAll();
 
-    Optional<T> readOne(V id);
+    T readOne(V id);
 
     // Update
     void update(V v, T t);

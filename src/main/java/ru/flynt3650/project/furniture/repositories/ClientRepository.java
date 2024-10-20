@@ -1,6 +1,7 @@
 package ru.flynt3650.project.furniture.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.flynt3650.project.furniture.mappers.ClientRowMapper;
@@ -38,10 +39,15 @@ public class ClientRepository implements IMyCrudRepository<Client, Integer> {
     }
 
     @Override
-    public Optional<Client> readOne(Integer id) {
+    public Client readOne(Integer id) {
         String sql = "SELECT * FROM client WHERE id=?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, new ClientRowMapper(), id));
+        try {
+            return jdbcTemplate.queryForObject(sql, new ClientRowMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+            return null; // Return null if no result is found
+        }
     }
+
 
     @Override
     public void update(Integer id, Client client) {

@@ -1,11 +1,15 @@
 package ru.flynt3650.project.furniture.controllers;
 
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.flynt3650.project.furniture.dto.ClientDto;
 import ru.flynt3650.project.furniture.services.ClientService;
 import ru.flynt3650.project.furniture.models.Client;
+import ru.flynt3650.project.furniture.util.ClientNotAddedException;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +30,23 @@ public class ClientController {
     }
 
     @PostMapping("/add")
-    public void postClient(@RequestBody ClientDto clientDto) {
+    public void postClient(@RequestBody @Valid ClientDto clientDto,
+                           BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (var error : errors)
+                errorMessage
+                        .append(error.getField())
+                        .append(" - ")
+                        .append(error.getDefaultMessage())
+                        .append(";");
+
+            throw new ClientNotAddedException(errorMessage.toString());
+        }
+
         clientService.createClient(toClient(clientDto));
     }
 
@@ -41,11 +61,29 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ClientDto getOneClient(@PathVariable("id") Integer id) {
+
+
         return toClientDto(clientService.getClientById(id));
     }
 
     @PatchMapping("/update/{id}")
-    public void patchOneClient(@PathVariable("id") Integer id, @RequestBody ClientDto clientDto) {
+    public void patchOneClient(@PathVariable("id") Integer id, @RequestBody @Valid ClientDto clientDto,
+                               BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            for (var error : errors)
+                errorMessage
+                        .append(error.getField())
+                        .append(" - ")
+                        .append(error.getDefaultMessage())
+                        .append(";");
+
+            throw new ClientNotAddedException(errorMessage.toString());
+        }
+
         clientService.updateClient(id, toClient(clientDto));
     }
 

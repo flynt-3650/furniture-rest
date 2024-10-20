@@ -26,7 +26,7 @@ public class ItemService {
     }
 
     public Item getItemById(Integer id) {
-        return itemRepository.readOne(id).orElse(null);
+        return itemRepository.readOne(id);
     }
 
     public void updateItem(Integer id, Item item) {

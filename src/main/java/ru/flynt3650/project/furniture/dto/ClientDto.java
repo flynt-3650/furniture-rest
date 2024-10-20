@@ -7,7 +7,6 @@ import java.util.Objects;
 
 public class ClientDto {
 
-    @NotNull
     private Integer id;
 
     @NotNull
