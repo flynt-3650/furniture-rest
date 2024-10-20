@@ -1,23 +1,23 @@
-package ru.flynt3650.project.furniture.repositories;
+package ru.flynt3650.project.furniture.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import ru.flynt3650.project.furniture.mappers.ClientRowMapper;
 import ru.flynt3650.project.furniture.models.Client;
+import ru.flynt3650.project.furniture.util.ClientNotFoundException;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-@Repository
-public class ClientRepository implements IMyCrudRepository<Client, Integer> {
+@Component
+public class ClientDao implements MyCrudDao<Client, Integer> {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ClientRepository(JdbcTemplate jdbcTemplate) {
+    public ClientDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -44,12 +44,10 @@ public class ClientRepository implements IMyCrudRepository<Client, Integer> {
         try {
             return jdbcTemplate.queryForObject(sql, new ClientRowMapper(), id);
         } catch (EmptyResultDataAccessException e) {
-            return null; // Return null if no result is found
+            throw new ClientNotFoundException("Client with id '" + id + "' was not found");
         }
     }
 
-
-    @Override
     public void update(Integer id, Client client) {
         String sql = "UPDATE client SET first_name=?, last_name=?, email=?, phone_number=?, address=? WHERE id=?";
         jdbcTemplate.update(sql,
@@ -61,7 +59,6 @@ public class ClientRepository implements IMyCrudRepository<Client, Integer> {
                 id);
     }
 
-    @Override
     public void delete(Integer id) {
         String sql = "DELETE FROM client where id=?";
         jdbcTemplate.update(sql, id);

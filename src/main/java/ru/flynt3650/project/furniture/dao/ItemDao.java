@@ -1,4 +1,4 @@
-package ru.flynt3650.project.furniture.repositories;
+package ru.flynt3650.project.furniture.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -7,15 +7,14 @@ import ru.flynt3650.project.furniture.mappers.ItemRowMapper;
 import ru.flynt3650.project.furniture.models.Item;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public class ItemRepository implements IMyCrudRepository<Item, Integer> {
+public class ItemDao implements MyCrudDao<Item, Integer> {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ItemRepository(JdbcTemplate jdbcTemplate) {
+    public ItemDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

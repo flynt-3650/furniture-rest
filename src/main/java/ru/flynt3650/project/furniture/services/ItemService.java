@@ -3,17 +3,17 @@ package ru.flynt3650.project.furniture.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.flynt3650.project.furniture.models.Item;
-import ru.flynt3650.project.furniture.repositories.ItemRepository;
+import ru.flynt3650.project.furniture.dao.ItemDao;
 
 import java.util.List;
 
 @Service
 public class ItemService {
 
-    private final ItemRepository itemRepository;
+    private final ItemDao itemRepository;
 
     @Autowired
-    public ItemService(ItemRepository itemRepository) {
+    public ItemService(ItemDao itemRepository) {
         this.itemRepository = itemRepository;
     }
 

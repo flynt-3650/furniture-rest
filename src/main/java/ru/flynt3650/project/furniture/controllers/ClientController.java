@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import ru.flynt3650.project.furniture.dao.ClientDao;
 import ru.flynt3650.project.furniture.dto.ClientDto;
-import ru.flynt3650.project.furniture.services.ClientService;
 import ru.flynt3650.project.furniture.models.Client;
 import ru.flynt3650.project.furniture.util.ClientNotAddedException;
 
@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 @RequestMapping("/clients")
 public class ClientController {
 
-    private final ClientService clientService;
+    private final ClientDao clientDao;
 
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ClientController(ClientService clientService, ModelMapper modelMapper) {
-        this.clientService = clientService;
+    public ClientController(ClientDao clientDao, ModelMapper modelMapper) {
+        this.clientDao = clientDao;
         this.modelMapper = modelMapper;
     }
 
@@ -47,13 +47,13 @@ public class ClientController {
             throw new ClientNotAddedException(errorMessage.toString());
         }
 
-        clientService.createClient(toClient(clientDto));
+        clientDao.create(toClient(clientDto));
     }
 
     @GetMapping()
     public List<ClientDto> getAllClients() {
-        return clientService
-                .getAllClients()
+        return clientDao
+                .readAll()
                 .stream()
                 .map(this::toClientDto)
                 .collect(Collectors.toList());
@@ -63,7 +63,7 @@ public class ClientController {
     public ClientDto getOneClient(@PathVariable("id") Integer id) {
 
 
-        return toClientDto(clientService.getClientById(id));
+        return toClientDto(clientDao.readOne(id));
     }
 
     @PatchMapping("/update/{id}")
@@ -84,17 +84,17 @@ public class ClientController {
             throw new ClientNotAddedException(errorMessage.toString());
         }
 
-        clientService.updateClient(id, toClient(clientDto));
+        clientDao.update(id, toClient(clientDto));
     }
 
     @DeleteMapping("/delete/{id}")
     public void deleteOneClient(@PathVariable("id") Integer id) {
-        clientService.deleteClient(id);
+        clientDao.delete(id);
     }
 
     @GetMapping("/clientOrder")
     public List<Map<String, Object>> getClientOrder() {
-        return clientService.getClientOrderInfo();
+        return clientDao.getClientOrderInfo();
     }
 
     private Client toClient(ClientDto clientDto) {

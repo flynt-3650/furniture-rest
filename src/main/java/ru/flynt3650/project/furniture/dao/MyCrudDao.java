@@ -1,9 +1,8 @@
-package ru.flynt3650.project.furniture.repositories;
+package ru.flynt3650.project.furniture.dao;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface IMyCrudRepository<T, V> {
+public interface MyCrudDao<T, V> {
 
     // Create
     void create(T t);
