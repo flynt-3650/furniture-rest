@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.flynt3650.project.furniture.mappers.ClientRowMapper;
 import ru.flynt3650.project.furniture.models.Client;
-import ru.flynt3650.project.furniture.util.ClientNotFoundException;
+import ru.flynt3650.project.furniture.util.exceptions.ClientNotFoundException;
 
 import java.util.List;
 import java.util.Map;

@@ -8,7 +8,6 @@ import java.util.Objects;
 
 public class ItemDto {
 
-    @NotNull
     private Integer id;
 
     @NotNull

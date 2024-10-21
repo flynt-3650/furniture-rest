@@ -1,10 +1,13 @@
 package ru.flynt3650.project.furniture.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.flynt3650.project.furniture.mappers.ItemRowMapper;
 import ru.flynt3650.project.furniture.models.Item;
+import ru.flynt3650.project.furniture.util.exceptions.ItemNotFoundException;
 
 import java.util.List;
 
@@ -36,7 +39,12 @@ public class ItemDao implements MyCrudDao<Item, Integer> {
     @Override
     public Item readOne(Integer id) {
         String sql = "SELECT * FROM item WHERE id=?";
-        return jdbcTemplate.queryForObject(sql, new ItemRowMapper(), id);
+
+        try {
+            return jdbcTemplate.queryForObject(sql, new ItemRowMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ItemNotFoundException("Item with id '" + id + "' was not found");
+        }
     }
 
     @Override

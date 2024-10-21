@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.flynt3650.project.furniture.dao.ClientDao;
 import ru.flynt3650.project.furniture.dto.ClientDto;
 import ru.flynt3650.project.furniture.models.Client;
-import ru.flynt3650.project.furniture.util.ClientNotAddedException;
+import ru.flynt3650.project.furniture.util.exceptions.ClientNotPostedException;
 
 import java.util.List;
 import java.util.Map;
@@ -44,7 +44,7 @@ public class ClientController {
                         .append(error.getDefaultMessage())
                         .append(";");
 
-            throw new ClientNotAddedException(errorMessage.toString());
+            throw new ClientNotPostedException(errorMessage.toString());
         }
 
         clientDao.create(toClient(clientDto));
@@ -81,7 +81,7 @@ public class ClientController {
                         .append(error.getDefaultMessage())
                         .append(";");
 
-            throw new ClientNotAddedException(errorMessage.toString());
+            throw new ClientNotPostedException(errorMessage.toString());
         }
 
         clientDao.update(id, toClient(clientDto));

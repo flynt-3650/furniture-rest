@@ -1,4 +1,4 @@
-package ru.flynt3650.project.furniture.controllers;
+package ru.flynt3650.project.furniture.exception_handlers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.flynt3650.project.furniture.util.ClientExceptionResponse;
-import ru.flynt3650.project.furniture.util.ClientNotAddedException;
-import ru.flynt3650.project.furniture.util.ClientNotFoundException;
-import ru.flynt3650.project.furniture.util.ClientNotPatchedException;
+import ru.flynt3650.project.furniture.util.exceptions.ClientNotPostedException;
+import ru.flynt3650.project.furniture.util.exceptions.ClientNotFoundException;
+import ru.flynt3650.project.furniture.util.exceptions.ClientNotPatchedException;
 
 @ControllerAdvice
 public class ClientExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ClientNotAddedException.class)
-    public ResponseEntity<ClientExceptionResponse> handleClientNotAddedException(ClientNotAddedException ex) {
+    @ExceptionHandler(ClientNotPostedException.class)
+    public ResponseEntity<ClientExceptionResponse> handleClientNotAddedException(ClientNotPostedException ex) {
         ClientExceptionResponse response = new ClientExceptionResponse(
                 ex.getMessage(), System.currentTimeMillis()
         );
