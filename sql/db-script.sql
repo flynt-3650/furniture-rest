@@ -1,5 +1,3 @@
---create database furniture_db on localhost:5432--
-
 DROP TABLE IF EXISTS order_item CASCADE;
 DROP TABLE IF EXISTS client_order CASCADE;
 DROP TABLE IF EXISTS item CASCADE;
@@ -48,7 +46,7 @@ CREATE TABLE order_item (
 
 -- Insert Clients
 INSERT INTO client (first_name, last_name, email, phone_number, address) VALUES
-('Ivan', 'Repilov', 'ivan.repilov@example.com', '+79165895464', '3k3 26 Bakinskih Kommisarov, Moscow, Russia'),
+('Ivan', 'Repilov', 'ivan.repilov@example.com', '+7916678345', '1 Arbat, Moscow, Russia'),
 ('Olga', 'Ivanova', 'olga.ivanova@example.com', '+79165891234', '12 Pushkin St, Moscow, Russia'),
 ('Sergey', 'Petrov', 'sergey.petrov@example.com', '+79161234567', '5 Tverskaya St, St. Petersburg, Russia'),
 ('Anna', 'Sidorova', 'anna.sidorova@example.com', '+79161239876', '10 Nevsky Ave, St. Petersburg, Russia'),
@@ -92,3 +90,30 @@ INSERT INTO order_item (order_id, item_id, quantity) VALUES
 (6, 4, 1), -- Maria ordered 1 King Bed
 (7, 8, 1); -- Alexey ordered 1 Fabric Sofa
 
+
+--SELECT * FROM client;
+--SELECT * FROM client_order;
+--SELECT * FROM order_item;
+--SELECT * FROM item;
+--SELECT * FROM item_category;
+--
+--SELECT
+--    co.id AS order_id,
+--    c.id AS client_id,
+--    c.first_name,
+--    c.last_name,
+--    c.address,
+--    oi.quantity,
+--    i.item_name,
+--    i.price,
+--    ic.category_name
+--FROM
+--    client c
+--JOIN
+--    client_order co ON c.id = co.client_id
+--JOIN
+--    order_item oi ON co.id = oi.order_id
+--JOIN
+--    item i ON oi.item_id = i.id
+--JOIN
+--    item_category ic ON i.category_id = ic.id
